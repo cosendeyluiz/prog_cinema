@@ -2,13 +2,17 @@
 
 |Nome do Campo|Tipo|Descrição|
 |-------------|----|---------|
-|nome_do_filme|cadeia de caracteres|Informa o nome do filme|
-|genero|cadeia de caracteres|Informa o genero do filme|
-|status|cadeia de caracteres|Classificação do filme, se é um lançamento, reprise, seriado, prévia|
-|idade_minima|int|Mostra a idade do cliente e os filmes que ele pode assistir conforme sua faixa etária|
-|duracao|real|Informa a duracao total do filme|
-|efeitos_especiais|cadeia de caracteres|Mostra se o filme tem efeitos como legenda, dublagem, 3D, etc.|
-|poltrona|int|Informa o numero da poltrona que o cliente deseja se sentar|
-|comida|real|Apresenta os gastos totais em comida pelo consumo do cliente|
-|bebida|real|Apresenta os gastos totais em bebida pelo consumo do cliente|
-|formas_pagamento|real|Informa o valor final da conta bem como as formas que o cliente pode pagar tal dívida|
+|nome_do_filme|Cadeia de Caracteres |Nome do filme|
+|genero|Cadeia de Caracteres|Gênero do filme|
+|status|Inteiro|Classificação do filme, se é um lançamento, reprise, seriado ou uma prévia. Ex: 1-lançamento, 2-reprise...|
+|ano_lancamento|Inteiro|Ano de lançamento do filme|
+|duracao|Inteiro|Duração total do filme|
+|permitido_assistir|Inteiro|Informa se o cliente pode assistir ao filme com base na idade mínima permitida do filme|
+|efeitos_especiais|Cadeia de Caracteres|Se o filme possui algum efeito como legenda, dublagem, 3D, poltrona D-Box, etc.|
+|nacionalidade|Cadeia de Caracteres |Informa o país onde o filme foi produzido|
+|idioma|Cadeia de Caracteres |Informa o idioma do filme|
+|poltrona|Inteiro|Determina qual poltrona o cliente quer se sentar|
+|comida|Real|Valor gasto com comidas no cinema|
+|bebida|Real|Valor gasto com bebidas no cinema|
+|tempo_min_permanencia|Inteiro|Informa o tempo mínimo de permanência até que a pessoa possa sair da sala do cinema.|
+|formas_pagamento|Real|Apresenta as formas de pagamento, como em dinheiro, débito, crédito, etc. E informa o valor final da conta.|
