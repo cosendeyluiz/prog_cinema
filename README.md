@@ -2,7 +2,7 @@
 
 |Nome do Campo|Tipo|Descrição|
 |-------------|----|---------|
-|nome_do_filme|Cadeia de Caracteres |Nome do filme|
+|nome_do_filme|Cadeia de Caracteres|Nome do filme|
 |genero|Cadeia de Caracteres|Gênero do filme|
 |status|Inteiro|Classificação do filme, se é um lançamento, reprise, seriado ou uma prévia. Ex: 1-lançamento, 2-reprise...|
 |ano_lancamento|Inteiro|Ano de lançamento do filme|
