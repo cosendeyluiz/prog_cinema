@@ -1,4 +1,4 @@
-# prog_cinema
+# AluzCineAcao
 
 |Nome do Campo|Tipo|Descrição|
 |-------------|----|---------|
