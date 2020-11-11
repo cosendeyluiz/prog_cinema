@@ -1,0 +1,341 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <locale.h>
+#define tam 30 //serve para 30 clientes
+
+float comida();
+void cardapio_comi();
+float bebida();
+void cardapio_bebi();
+void seta_poltronas(int polt[]);
+float formas_pagamento (float total_comida, float total_bebida);
+/* Olá programador(a), este é o nosso projeto do cinema ALUZCINEAÇÃO, nele você poderá realizar cadastros, consultas e alterações de dados, bem como armazenar as informações de cada cliente do
+estabelecimento. Esperamos que você curta o nosso código, fizemos com atenção e precisão para atender suas necessidades!!! (obs: para melhor visualização, use o terminal em tela cheia)*/
+int main()
+ {
+
+  system("color F0");
+  char opcao, efeito, assistir_nome[tam][60],nacio[tam][60], idio[tam][60], ef_esp[tam][60],status [tam][60],nome[tam][60],genero[tam][60];
+  int clientes, controlador, i, j, id_cliente[tam], posi, minima, resp, quant_min[tam], horas[tam], minutos[tam], min, polt[tam], id_min[tam],ano[tam];
+  float valor_comi, valor_bebi, conta;
+    setlocale(LC_ALL,"");
+   printf ("======================================================================================");
+   printf ("\n\n\t\t CINEMA: ALUZCINEAÇÃO\n\n");
+   printf ("======================================================================================");
+   printf ("\n\n Seja bem vindo!!\n\n");
+    for (i=0; i<tam; i++)
+    {
+
+       printf ("\nInforme o nome do filme: ");
+       gets(nome[i]);
+       fflush(stdin);
+
+       printf ("\nInforme o genero do filme: ");
+       gets(genero[i]);
+       fflush(stdin);
+
+       printf ("\nInforme o status do filme: ");
+       gets(status[i]);
+       fflush(stdin);
+
+       printf ("\nInforme o ano de lançamento do filme: ");
+       scanf ("%d", &ano[i]);
+       fflush(stdin);
+
+       printf ("\nInforme a quantidade total de minutos do filme: ");
+       scanf ("%d", &quant_min[i]);
+       fflush(stdin);
+       min = quant_min[i];
+       horas[i] = min/60;
+       minutos[i] = min%60;
+
+       printf ("\nInforme a idade minima do filme: ");
+       scanf ("%d", &id_min[i]);
+       fflush(stdin);
+
+       printf ("\n\nO filme possui efeito especial? Digite S se sim, e N se não possui: ");
+       scanf (" %c", &efeito);
+       if (efeito=='S')
+       {
+           fflush(stdin);
+           printf ("\nInforme o efeito especial do filme: ");
+           gets(ef_esp[i]);
+           fflush(stdin);
+       }
+       else if (efeito=='N')
+       {
+           strcpy(ef_esp[i],"Nenhum");//aos que não tiverem efeitos, aparece Nenhum
+           fflush(stdin);
+       }
+
+       printf ("\nInforme a nacionalidade do filme: ");
+       gets(nacio[i]);
+       fflush(stdin);
+
+       printf ("\nInforme o idioma do filme: ");
+       gets(idio[i]);
+       fflush(stdin);
+       system("cls"); //para apagar as "perguntas" e "comandos" e só aparecer a tabela final
+    }
+
+
+    //operações ANTES do filme, depois apaga tudo, pra não ficar poluído
+   //mostra a tabela
+                system("color 90");
+		 printf ("\n\n NOME     -     GÊNERO     -     STATUS     -     ANO DE LANCAMENTO     -     IDADE MINIMA");
+            for (i=0; i<tam; i++)
+               {
+
+                   printf ("\n %4s %13s %15s %26.2d %26.2d\n" , nome[i], genero[i], status[i], ano[i], id_min[i]);
+               }
+                   printf ("\n\n EFEITOS ESPECIAIS     -     NACIONALIDADE     -     IDIOMA     -     DURAÇÃO");
+            for (i=0; i<tam; i++)
+               {
+                    printf ("\n %4s %26s %26s          %02d:%02d \n", ef_esp[i], nacio[i], idio[i], horas[i], minutos[i]);
+               }
+      system("pause");
+      system("cls");
+
+       system("color F0");
+
+    for (i=0; i<tam; i++)
+    {
+        printf ("\n\nEscolha o filme que o %dº cliente deseja assistir: ", i+1);
+        fflush(stdin);
+        gets(assistir_nome[i]);
+        printf ("\n\nInforme sua idade: ");
+        fflush(stdin);
+        scanf("%d", &id_cliente[i]);
+
+        system("cls");
+
+
+        for(j=0; j<tam; j++) //procura a posição por meio do nome do filme escolhido
+        {
+
+            if (strcmp(nome[j], assistir_nome[i])==0)
+            {
+                printf ("\n\nFilme escolhido: ");
+                puts(assistir_nome[i]);
+                printf ("\n\nIdade minima: %d\nSua idade: %d", id_min[j], id_cliente[i]);
+                if ( id_min[j]>id_cliente[i])
+                {system("color F0");
+                    printf("\n\nVocê não possui a idade mínima para assistir esse filme. Escolha outro!!! \n\n");
+                    return 0; //encerra o programa, já que ele(a) não tem a idade minima e pede para escolher outro
+                }
+                else
+                {
+                    printf ("\n\nVocê tem a idade mínima para assistir!");
+                }
+            }
+
+        }
+        valor_comi = comida();
+        printf ("\n\n O valor total gasto com comidas foi: R$%.2f\n\n", valor_comi);
+        system("pause");
+        system("cls");
+
+        valor_bebi = bebida();
+        printf ("\n\n O valor total gasto com bebidas foi: R$%.2f\n\n", valor_bebi);
+        system("pause");
+        system("cls");
+
+        conta = formas_pagamento(valor_comi, valor_bebi);
+        printf ("\n\n O valor valor final de sua conta é: R$%.2f\n\n", conta);
+
+        system("pause");
+        system("cls");
+    }
+
+
+
+    for (i=0; i<tam; i++)//fiz um separado para poltrona para determinar os lugares de cada um no final de tudo
+    {
+     seta_poltronas(polt); //chama a função
+
+     while(i<tam) //uso do while para o tratamento de erro ser mais simples.
+     {
+
+        printf("\n");
+
+        //vai exibir um diagrama em formato de sala, sobre o assentos ocupados e livres, O para livre, X para ocupado, do 1 ao "30", da esquerda para direita de cima para baixo
+        for( controlador = 0; controlador<tam; controlador++)
+        {
+            if(controlador%6 == 0 && controlador!=0)
+            {
+                printf("\n");
+            }
+
+            if(polt[controlador]==0)
+            {
+                printf("O ");
+            }
+
+            else
+            {
+                printf("X ");
+            }
+        }
+
+        //fim
+
+        printf ("\n\nInforme o número da poltrona que o %dº cliente quer sentar (1 a 10): ", i+1);
+        scanf("%d", &j);
+
+        if(polt[j-1]==0 && j>0 && j<=30)
+        {
+            polt[j-1] = 1;
+            i++; //so vai confirmar o avanço no while quando o i for incrementado
+        }
+        else
+        {
+            printf ("\nPoltrona já está ocupada ou o assento é invalido. Escolha outra.\n"); //volta a pergunta novamente para tornar o tratamento de erro mais limpo
+        }
+     } printf ("\n\n ***Sessão esgotada!!***\n\n");
+    printf ("\n\n\t\t\t\t>>>>>>>>TENHA UM BOM FILME<<<<<<<<\n\n");
+   }
+   return 0;
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+ //FUNÇÕES
+
+ void cardapio_comi()
+ {
+     printf ("\n\n\t -CARDÁPIO- \n");
+     printf ("\t (comidas)\n\n");
+     printf (" -Pipoca Salgada: R$2.50\n");
+     printf (" -Pipoca Doce: R$3.00\n");
+
+ }
+  void cardapio_bebi()
+ {
+     printf ("\n\n\t -CARDÁPIO- \n");
+     printf ("\t (bebidas)\n\n");
+     printf (" -Refrigerante: R$3.00\n");
+     printf (" -Suco: R$2.00\n\n");
+
+ }
+
+float comida()
+   {
+      int quant=0, pipoca;
+      float subtotal=0, total_comida=0;
+
+       cardapio_comi(); //apresenta o cardapio de comidas do cinema
+
+       printf ("\nDigite 1 se quer pipoca salgada ou 2 pipoca doce (ou 0 se nao quiser nenhuma):\n");
+       scanf ("%d", &pipoca);
+
+      while (pipoca!=0){
+
+        if (pipoca==1)
+        {
+            printf ("\nInforme a quantidade desejada:");
+            scanf ("%d", &quant);
+            subtotal= 2.5*quant;  // 1 pipoca salgada vale 2,50
+        }
+        else if (pipoca==2)
+        {
+            printf ("\nInforme a quantidade desejada:");
+            scanf ("%d", &quant);
+            subtotal= 3*quant;  // 1 pipoca doce vale 3
+        }
+        total_comida = total_comida +subtotal;
+        printf ("\nDigite 1 se quer pipoca salgada ou 2 pipoca doce (ou 0 se nao quiser mais):\n");
+        scanf ("%d", &pipoca);
+
+      }
+
+
+    return total_comida;
+   }
+
+
+float bebida()
+   {
+      int quant=0, bebida=0;
+      float subtotal=0, total_bebida=0;
+
+        cardapio_bebi(); //apresenta o cardapio de bebidas do cinema
+        printf ("Digite 1 se quer refrigerante ou 2 se quer suco (ou 0 se nao quiser nada):\n");
+        scanf ("%d", &bebida);
+
+      while (bebida!=0){
+
+        if (bebida==1)
+        {
+            printf ("\nInforme a quantidade desejada:");
+            scanf ("%d", &quant);
+            subtotal= 3.0*quant;  // 1 refrigerante vale 3,00
+        }
+        else if (bebida==2)
+        {
+            printf ("\nInforme a quantidade desejada:");
+            scanf ("%d", &quant);
+            subtotal= 2.0*quant;  // 1 suco vale 2,00
+        }
+        total_bebida = total_bebida +subtotal;
+        printf ("\nDigite 1 se quer refrigerante ou 2 se quer suco (ou 0 se nao quiser mais):\n");
+        scanf ("%d", &bebida);
+      }
+
+    return total_bebida;
+   }
+
+   float formas_pagamento (float total_comida, float total_bebida)
+  {
+      float pagar=0;
+      int opcao, ingresso;
+      ingresso = 20; // PRECO DO INGRESSO PARA ASSISTIR O FILME
+
+      printf ("\n\n\tFORMAS DE PAGAMENTO\n\n");
+      printf ("\nEscolha uma opcao:\n 1- A vista \n 2- Debito \n 3- Credito\n");
+      scanf ("%d", &opcao);
+
+      switch (opcao){
+
+       case 1: {
+           printf ("\nPagando a vista voce recebe 10%% de desconto\n");
+           pagar = (1-0.1)*(ingresso + total_comida + total_bebida);
+           printf("\nO tempo minímo de permanência é de 30 minutos\n");
+           break;
+       }
+      case 2: {
+           printf ("\nPagando a debito voce recebe 7%% de desconto\n");
+           pagar = (1-0.07)*(ingresso + total_comida + total_bebida);
+             printf("\nO tempo minímo de permanência é de 30 minutos\n");
+           break;
+       }
+       case 3: {
+           printf ("\nPagando a credito voce recebe 4%% de desconto\n");
+           pagar = (1-0.04)*(ingresso + total_comida + total_bebida);
+           printf("\nO tempo minímo de permanência é de 30 minutos\n");
+           break;
+       }
+
+
+      }
+      return pagar;
+
+  }
+
+  void seta_poltronas(int polt[]) //seta o vetor de poltronas para 0. 0 = livre, 1 = ocupado
+{
+    int i;
+    for( i=0; i<tam; i++)
+    {
+        polt[i]=0;
+    }
+}
